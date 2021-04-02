@@ -1,0 +1,29 @@
+@import '../../styles/variables';
+
+.search-form {
+  height: 40px;
+  position: relative;
+  margin: 12px 25px;
+
+  .input {
+    height: 100%;
+    width: 100%;
+    padding: 17px 14px;
+    z-index: -1;
+    font-size: 14px;
+
+    border: 0.89px solid #FBEEFF;
+    box-shadow: 0px 88.3382px 70.6706px rgba(0, 0, 0, 0.02), 0px 36.9056px 29.5245px rgba(0, 0, 0, 0.0143771), 0px 19.7315px 15.7852px rgba(0, 0, 0, 0.0119221), 0px 11.0613px 8.84905px rgba(0, 0, 0, 0.01), 0px 5.87458px 4.69966px rgba(0, 0, 0, 0.00807786), 0px 2.44454px 1.95564px rgba(0, 0, 0, 0.00562291);
+    border-radius: 7.1px;
+
+    &:focus {
+      outline: darken($regular-text-color, 30) auto 1.82px;
+    }
+  }
+
+  .icon {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+  }
+}

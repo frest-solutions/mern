@@ -1,0 +1,48 @@
+@import "../../styles/variables";
+
+.ListItem {
+  margin: 12px 18px;
+  border-radius: 7.3px;
+  border-left: none;
+  border-right: none;
+  z-index: 10;
+  min-height: 115px;
+  background-color: #fff;
+  box-shadow: 0px 36.9056px 29.5245px rgba(0, 0, 0, 0.0143771), 0px 19.7315px 15.7852px rgba(0, 0, 0, 0.0119221), 0px 11.0613px 8.84905px rgba(0, 0, 0, 0.01), 0px 5.87458px 4.69966px rgba(0, 0, 0, 0.00807786), 0px 2.44454px 1.95564px rgba(0, 0, 0, 0.00562291);
+
+  .router-link {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 115px;
+    border-radius: 7.3px;
+
+    .title {
+      padding-left: 22px;
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 24px;
+      width: 100%;
+      display: block;
+    }
+
+    .text {
+      padding-top: 8px;
+      padding-left: 22px;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 17px;
+      width: 100%;
+      display: block;
+    }
+  }
+
+}
+
+@media (min-width: 767px) {
+  .ListItem {
+    margin: 5px;
+    width: calc(40% - 10px);
+  }
+}

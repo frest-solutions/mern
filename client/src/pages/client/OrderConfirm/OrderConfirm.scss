@@ -1,0 +1,57 @@
+.OrderConfirm {
+
+  max-width: 450px;
+  margin: auto;
+
+  .btn-regular.order-confirm {
+    padding: 10px 37px;
+  }
+
+  .OrderConfirm-form {
+    padding: 22px 37px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .input-group {
+      position: relative;
+      width: 100%;
+      height: 100%;
+
+      p {
+        position: absolute;
+        bottom: 8px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        color: red;
+        font-size: 12px;
+      }
+    }
+
+
+    .input-item.white {
+      width: 100%;
+      margin-bottom: 25px;
+
+      &:focus {
+        outline: none;
+        border: 1px solid gray;
+
+      }
+
+      &.error {
+        border: 1px solid red;
+      }
+    }
+
+    .btn-regular {
+      width: 100%;
+      margin-right: 0;
+    }
+
+    .btn-confirm {
+      margin-top: 18px;
+    }
+  }
+}

@@ -1,0 +1,74 @@
+.Filter {
+  display: none;
+
+  &.show {
+    display: block;
+  }
+
+  .Filter-modal {
+    position: fixed;
+    top: calc(50% - 190px);
+    left: 30px;
+    right: 30px;
+    min-height: 360px;
+    z-index: 100;
+    background: #fff;
+    border-radius: 6.8px;
+
+    .modal-header {
+      font-family: Manrope;
+      padding: 20px;
+      font-weight: 500;
+      font-size: 16.8802px;
+      line-height: 22px;
+      display: flex;
+      align-items: center;
+      color: #120E21;
+      background: #EFEDF0;
+      border-radius: 6.8px 6.8px 0px 0px;
+    }
+
+    .price {
+      margin: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      .block {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      @media(max-width: 315px) {
+        .block {
+          display: block;
+          //justify-content: space-between;
+        }
+      }
+    }
+
+    .sort {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 18px;
+    }
+  }
+
+  .price-title, .sort-title {
+    width: 100%;
+    margin-bottom: 11px;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 20px;
+  }
+
+  .Filter-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99;
+    background: rgba(0, 0, 0, 0.5);
+  }
+}

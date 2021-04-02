@@ -1,0 +1,33 @@
+@import '../../../../../styles/variables';
+
+.navbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 84px;
+  border: 1px solid $border-color;
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  background-color: #fff;
+  justify-content: space-around;
+  z-index: 100;
+
+  a {
+    width: 100%;
+    padding: 18px 0 40px;
+    display: flex;
+    justify-content: center;
+
+    .navbar-item {
+      opacity: 0.4;
+    }
+  }
+
+  .active {
+    .navbar-item {
+      opacity: 1;
+    }
+  }
+}
+

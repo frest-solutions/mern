@@ -1,0 +1,47 @@
+@import '../../../shared/styles/variables';
+
+.Home {
+  .search-container {
+    top: 0px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    background: #fff;
+    z-index: 100;
+
+    &.sticky {
+      box-shadow: 0px 36.9056px 29.5245px rgba(0, 0, 0, 0.0143771), 0px 19.7315px 15.7852px rgba(0, 0, 0, 0.0119221), 0px 11.0613px 8.84905px rgba(0, 0, 0, 0.01), 0px 5.87458px 4.69966px rgba(0, 0, 0, 0.00807786), 0px 2.44454px 1.95564px rgba(0, 0, 0, 0.00562291);
+    }
+  }
+
+  .filter-container {
+    padding: 6px 34px;
+    display: flex;
+
+    .filter-icon {
+      margin-right: 8px;
+    }
+
+    .filter-text {
+      line-height: 19px;
+      color: $regular-text-color;
+    }
+  }
+}
+
+@media (min-width: 767px) {
+  .Home {
+    .list-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+}
+
+
+@media (min-width: 1024px) {
+  .Home {
+    max-width: 85%;
+    margin: auto;
+  }
+}

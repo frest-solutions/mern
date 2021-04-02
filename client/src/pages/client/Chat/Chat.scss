@@ -1,0 +1,28 @@
+.Chat {
+  margin: 0 15px 170px;
+
+  .input {
+    position: fixed;
+    bottom: 82px;
+    right: 0;
+    left: 0;
+    padding: 14px;
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .input-item {
+      width: calc(100% - 45px);
+    }
+
+    .send-button {
+      border: none;
+      background: none;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "port": 5000,
+  "jwtSecret": "frest is my first fullstack project",
+  "mongoUrl": "mongodb+srv://frest:ZH0XOBlhGtTgOBlS@cluster0.6euzu.mongodb.net/frest?retryWrites=true&w=majority",
+  "baseUrl": "http://localhost:5000/"
+}

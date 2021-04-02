@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Roboto:wght@400;500&display=swap');
+@import 'variables';
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: 800;
+  font-family: 'Manrope', sans-serif;
+}
+
+p {
+  margin: 0;
+}
+
+.title {
+  font-family: 'Manrope', sans-serif;
+  color: $main-text-color;
+  text-decoration: none;
+}
+
+.text {
+  color: $regular-text-color;
+}
+
+.router-link {
+  text-decoration: none;
+}
+
+.btn-regular {
+  margin: 0 5px 15px 0;
+  padding: 4px 10px;
+  min-height: 34px;
+  min-width: 110px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 160%;
+  align-items: center;
+  text-align: center;
+  color: #120E21;
+  background: #FBEAFF;
+  border-radius: 4px;
+  outline: none;
+  border: none;
+
+  &:hover {
+    background: darken(#FBEAFF, 2);
+    cursor: pointer;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.btn-regular.active {
+  background: darken(#FBEAFF, 4);
+  font-weight: bold;
+
+  &:hover {
+    background: darken(#FBEAFF, 5);
+    cursor: pointer;
+  }
+}
+
+.btn-confirm {
+  background: #9378FF;
+  border-radius: 46.56px;
+  padding: 13px;
+  min-width: 205px;
+  border: none;
+  margin: auto;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+
+  &.disabled {
+    color: #818080;
+    background-color: #d5ccfc;
+  }
+
+  &:hover {
+    background: darken(#9378FF, 5);
+    cursor: pointer;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.input-item {
+  min-height: 40px;
+  height: auto;
+
+  padding: 12px 15px;
+  background: #FBEEFF;
+  mix-blend-mode: normal;
+  backdrop-filter: blur(36.7458px);
+  border-radius: 7.34915px;
+  font-weight: normal;
+  font-size: 14.7px;
+  line-height: 17px;
+  display: flex;
+  align-items: center;
+  color: #99879D;
+  border: 1px solid white;
+
+  &:focus {
+    outline: none;
+    color: black;
+    background-color: #fff;
+    border: 1px solid gray;
+
+    &.error {
+      border: 1px solid red;
+    }
+  }
+
+  &.error {
+    border: 1px solid red;
+  }
+}
+
+.input-item.white {
+  background-color: #fff;
+  border: 1px solid #99879D;
+
+  &:focus {
+    outline: #99879D auto 2px;
+  }
+}
+
+@media (min-width: 767px) {
+  body {
+
+  }
+}

@@ -1,0 +1,73 @@
+.Accordion {
+
+  .tab input, .tab-content {
+    display: none;
+  }
+
+  .tab {
+    border-bottom: 0.96px solid rgba(153, 135, 157, 0.24);
+
+    .description {
+      margin: 5px 18px;
+    }
+
+    .tab-title {
+      padding: 28px 15px;
+      min-height: 82px;
+      width: 100%;
+      height: 100%;
+      display: flex; /* Блочный элемент */
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer; /* Вид курсора */
+      background-color: #fff;
+    }
+
+    .count {
+      font-size: 24px;
+      font-weight: 800 !important;
+      display: flex;
+      justify-content: space-between;
+
+      .arrow {
+        margin-left: 11px;
+        transform: rotate(90deg);
+      }
+    }
+  }
+
+  .tab :checked + .tab-title {
+    .count {
+      .arrow {
+        transform: rotate(-90deg);
+      }
+    }
+  }
+
+  .tab :checked ~ .tab-content {
+    display: block; /* Показываем содержимое */
+    padding-bottom: 26px;
+    box-shadow: inset -15.3173px 15.3173px 53.6107px rgba(251, 234, 255, 0.32);
+  }
+}
+
+@media (min-width: 767px) {
+  .Accordion {
+
+
+    .tab :checked ~ .tab-content {
+      padding-top: 20px;
+      padding-left: 10%;
+      padding-right: 10%;
+      display: flex;
+      flex-wrap: wrap;
+
+      .ListItem {
+        background-color: #fff;
+        width: calc(50% - 10px);
+        height: 100%;
+      }
+    }
+  }
+}
+
