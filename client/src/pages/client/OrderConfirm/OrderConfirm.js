@@ -1,4 +1,4 @@
-import Accordion from '../../../shared/components/Accordion'
+import AccordionUI from '../../../shared/components/Accordion/AccordionUI'
 import BaseLayout from '../../../shared/layouts/client/BaseLayout'
 import './OrderConfirm.scss'
 import {routes} from '../../../shared/constants'
@@ -33,7 +33,7 @@ function OrderConfirm() {
   const router = useHistory()
   const {id} = useParams()
   const dispatch = useDispatch()
-  const {service, loading, item} = useSelector(state => state.order, shallowEqual)
+  const {service, isCreated, loading, error, item} = useSelector(state => state.order, shallowEqual)
   const data = service && service.subCategoryItem && service.subCategoryItem
   const header = {title: 'Подтверждение заявки', text: ''}
   const layoutConfig = {
@@ -46,26 +46,24 @@ function OrderConfirm() {
 
   const handleSubmit = async (value) => {
     await dispatch(order.actions.createOrder(value))
-
     await dispatch(order.actions.postTask())
-      .then(
-        router.push(routes.ORDERPUBLIC)
-      )
+    !error && dispatch(order.actions.isCreatedTask())
   }
-
-  // if (!service) {
-  //   router.push(routes.ORDER.replace(':id', id))
-  // }
+  if (isCreated) {
+    router.push(routes.ORDERPUBLIC)
+  }
   if (loading) {
     return <Loading/>
+  }
+  if (!service) {
+    router.push(routes.ORDER.replace(':id', id))
   }
   return (
     <BaseLayout config={layoutConfig} header={header}>
       {service && service.category
-        ? <Accordion config={accordionConfig} item={data} subItems={item}/>
+        ? <AccordionUI config={accordionConfig} item={data} subItems={item}/>
         : ''}
       <div className={'OrderConfirm'}>
-
         <Formik
           initialValues={{
             address: '',

@@ -50,9 +50,10 @@ export const useRoutes = (isAuthenticated, role) => {
   }
   return (
     <Switch>
-      <Route path={routes.AUTH} exact>
-        <Auth/>
-      </Route>
+      <Route path={routes.HOME} component={Home} exact/>
+      <Route path={routes.CATEGORIES} component={Categories} exact/>
+      <Route path={routes.CATEGORY} component={CategoryDetail} exact/>
+      <Route path={routes.AUTH} component={Auth} exact/>
       <Redirect to={routes.AUTH}/>
     </Switch>
   )

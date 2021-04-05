@@ -1,13 +1,10 @@
 import axios from 'axios'
 
-const data = JSON.parse(localStorage.getItem('userData'))
-console.log(data)
 export const instance = axios.create({
   baseURL: 'http://localhost:5000/',
-  headers: {
-    Authorization: `Bearer ${data?.token}`
-  }
 })
+
+export const imgApiUrl = 'http://localhost:5000/upload/'
 
 function errorHandler(error) {
   if (error.response) {
@@ -15,9 +12,6 @@ function errorHandler(error) {
     // console.log(error.response.data);
     // console.log(error.response.status);
     // console.log(error.response.headers);
-    // if (error.response.status === 401) {
-    //   localStorage.removeItem('userData')
-    // }
     return error.response.data
   } else if (error.request) {
     // The request was made but no response was received
@@ -30,55 +24,98 @@ function errorHandler(error) {
   }
 }
 
-export const imgApiUrl = '/temp/'
-
 export const authAPI = {
   register(form) {
-    return instance.post('api/auth/register', {...form})
+    return instance.post('api/auth/register', {...form},
+      {
+        headers: {Authorization: `Bearer ${JSON.parse(localStorage.getItem('userData'))?.token}`}
+      })
       .catch(e => errorHandler(e))
   },
   login(form) {
-    return instance.post('api/auth/login', {...form})
+    return instance.post('api/auth/login', {...form},
+      {
+        headers: {Authorization: `Bearer ${JSON.parse(localStorage.getItem('userData'))?.token}`}
+      })
       .catch(e => errorHandler(e))
   }
 }
 
 export const profileAPI = {
-  // auth() {
-  //   return instance.get('profile')
-  // }
+  getProfile() {
+    return instance.get('api/auth/profile',
+      {
+        headers: {Authorization: `Bearer ${JSON.parse(localStorage.getItem('userData'))?.token}`}
+      })
+      .catch(e => errorHandler(e))
+  }
 }
 
 export const tasksAPI = {
   create(item) {
-    return instance.post('api/task/create', {...item})
+    return instance.post('api/task/create', {...item},
+      {
+        headers: {Authorization: `Bearer ${JSON.parse(localStorage.getItem('userData'))?.token}`}
+      })
       .catch(e => errorHandler(e))
   },
 
+  deleteTask(id) {
+    return instance.delete(`/api/task/${id}`,
+      {
+        headers: {Authorization: `Bearer ${JSON.parse(localStorage.getItem('userData'))?.token}`}
+      })
+      .catch(e => errorHandler(e))
+  },
+
+  uploadPhoto(formData) {
+    return instance.post('api/upload', formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem('userData'))?.token}`
+      }
+    })
+  },
+
   getTasks() {
-    return instance.get('api/task')
+    return instance.get('api/task',
+      {
+        headers: {Authorization: `Bearer ${JSON.parse(localStorage.getItem('userData'))?.token}`}
+      })
       .catch(e => errorHandler(e))
   },
 }
 
 export const categoriesAPI = {
   getCategories() {
-    return instance.get('api/category')
+    return instance.get('api/category',
+      {
+        headers: {Authorization: `Bearer ${JSON.parse(localStorage.getItem('userData'))?.token}`}
+      })
       .catch(e => errorHandler(e))
   },
 
   getCategory(id) {
-    return instance.get(`api/category/${id}`)
+    return instance.get(`api/category/${id}`,
+      {
+        headers: {Authorization: `Bearer ${JSON.parse(localStorage.getItem('userData'))?.token}`}
+      })
       .catch(e => errorHandler(e))
   },
 
   getServices() {
-    return instance.get('api/category/service')
+    return instance.get('api/category/service',
+      {
+        headers: {Authorization: `Bearer ${JSON.parse(localStorage.getItem('userData'))?.token}`}
+      })
       .catch(e => errorHandler(e))
   },
 
   getService(id) {
-    return instance.get(`api/category/service/${id}`)
+    return instance.get(`api/category/service/${id}`,
+      {
+        headers: {Authorization: `Bearer ${JSON.parse(localStorage.getItem('userData'))?.token}`}
+      })
       .catch(e => errorHandler(e))
   }
 }

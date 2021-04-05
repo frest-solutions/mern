@@ -14,7 +14,7 @@
   }
 
   .filter-container {
-    padding: 6px 34px;
+    padding: 6px 0;
     display: flex;
 
     .filter-icon {
@@ -41,7 +41,6 @@
 
 @media (min-width: 1024px) {
   .Home {
-    max-width: 85%;
-    margin: auto;
+
   }
 }

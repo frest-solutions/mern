@@ -1,6 +1,6 @@
 import './CategoryDetail.scss'
 import BaseLayout from '../../../shared/layouts/client/BaseLayout'
-import Accordion from '../../../shared/components/Accordion/Accordion'
+import AccordionUI from '../../../shared/components/Accordion'
 import { useParams } from 'react-router-dom'
 import { routes } from '../../../shared/constants'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
@@ -43,8 +43,8 @@ function CategoryDetail() {
         <BaseLayout header={category} config={layoutConfig}>
           <div className='CategoryDetail'>
             {
-              items.map(o => <Accordion item={o} config={accordionConfig} key={o._id}
-                                        subItems={services}
+              items.map(o => <AccordionUI item={o} config={accordionConfig} key={o._id}
+                                          subItems={services}
               />)
             }
           </div>

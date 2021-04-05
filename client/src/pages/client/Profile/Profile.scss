@@ -1,7 +1,6 @@
 .Profile {
   .profile-name {
     display: flex;
-    margin: 0 22px;
     align-items: center;
 
     .avatar {
@@ -25,8 +24,8 @@
   }
 
   .profile-items-title {
-    margin-top: 30px;
-    padding: 0 19px 23px;
+    margin: 22px -22px 0;
+    padding: 0 22px 23px;
     font-weight: bold;
     font-size: 16px;
     line-height: 21px;

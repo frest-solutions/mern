@@ -11,7 +11,7 @@ import { routes } from '../../../shared/constants'
 function Categories() {
   const dispatch = useDispatch()
   const { items, loading, error } = useSelector(state => state.categories, shallowEqual)
-  const header = { title: 'Категории', text: 'Поиск услуг по категориям' }
+  const header = { title: 'Frest', text: '' }
   const itemConfig = {
     itemRoute: routes.CATEGORY
   }

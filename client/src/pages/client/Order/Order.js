@@ -3,12 +3,13 @@ import BaseLayout from '../../../shared/layouts/client/BaseLayout'
 import {useHistory, useParams} from 'react-router-dom'
 import {routes} from '../../../shared/constants'
 import {useEffect} from 'react'
-import {Formik, Field, Form, ErrorMessage} from 'formik'
+import {ErrorMessage, Field, Form, Formik} from 'formik'
 import * as Yup from 'yup'
 import {shallowEqual, useDispatch, useSelector} from 'react-redux'
 import order from '../../../store/modules/order'
 import Loading from '../../../shared/components/Loading'
 import Error from '../../../shared/components/Error'
+import {imgApiUrl} from "../../../api";
 
 const ValidateSchema = Yup.object().shape({
   description: Yup.string()
@@ -29,8 +30,10 @@ function Order() {
   const {id} = useParams()
   const dispatch = useDispatch()
   const {service, loading, error, item} = useSelector(state => state.order, shallowEqual)
-
-
+  console.log(service, 'and', item)
+  setInterval(() => {
+    console.log(service, 'and', item)
+  }, 10000)
   const date = new Date
   const getCreatedDate = (d) => {
     return `${d.getDate()}/${(d.getMonth() + 1) < 10 ? `0${d.getMonth() + 1}` : (d.getMonth() + 1)}/${d.getFullYear()}`
@@ -47,6 +50,10 @@ function Order() {
   const handleSubmit = (value) => {
     dispatch(order.actions.createOrder(value))
     router.push(routes.ORDERCONFIRM.replace(':id', id))
+  }
+
+  const handleUpload = (file) => {
+    dispatch(order.actions.uploadPhotos(file))
   }
 
   if (loading) {
@@ -75,7 +82,7 @@ function Order() {
               price: '',
               serviceId: service?._id,
               title: service?.title,
-              // photo: ''
+              photos: item?.photos
             }}
             validationSchema={ValidateSchema}
             validateOnMount={true}
@@ -85,7 +92,7 @@ function Order() {
           >
             {
               props => {
-                const {isValid, setFieldValue, errors, touched} = props
+                const {isValid, values, setFieldValue, errors, touched} = props
                 return (
                   <Form>
 
@@ -101,7 +108,7 @@ function Order() {
                     </div>
 
                     <div className='input-group'>
-                      <label htmlFor='photo' className='upload-file__label input-item '>
+                      <label htmlFor='photos' className='upload-file__label input-item '>
                         <span className='upload-file__text'>Фотография</span>
                         <svg width='16' height='17' viewBox='0 0 16 17' fill='none' xmlns='http://www.w3.org/2000/svg'>
                           <path
@@ -109,10 +116,21 @@ function Order() {
                             fill='#99879D'/>
                         </svg>
                       </label>
-                      <input type='file' className='upload-file__input' id='photo' name='photo' placeholder='Фотография'
-                             onChange={(event) => {
-                               setFieldValue('photo', event.currentTarget.files[0])
-                             }}/>
+
+                      <input
+                        className='upload-file__input'
+                        id='photos'
+                        placeholder='Фотография'
+                        type="file"
+                        name="photos"
+                        onChange={(event) => {
+                          handleUpload(event.target.files[0])
+                        }}
+                      />
+                      {item?.photos.length !== 0 ? <div className='uploaded-photos'>
+                        {item?.photos.map(o => <img key={o} src={imgApiUrl + o} alt={o}/>)}
+                      </div> : ''}
+
                     </div>
 
                     <div className='input-group'>

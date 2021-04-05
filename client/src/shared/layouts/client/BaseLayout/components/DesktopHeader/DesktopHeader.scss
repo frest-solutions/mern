@@ -1,5 +1,6 @@
 .DesktopHeader {
   padding-top: 10px;
+  padding-bottom: 10px;
   display: flex;
   justify-content: space-between;
   max-height: 80px;
@@ -9,6 +10,7 @@
 
   .DesktopHeader-title {
     padding-left: 15px;
+
     a {
       text-decoration: none;
       display: flex;
@@ -19,14 +21,14 @@
     .title {
       display: flex;
       align-items: center;
-      font-family: Manrope;
-      font-weight: 800;
-      font-size: 24px;
+      font-weight: 500;
+      font-size: 22px;
     }
 
     .logo {
-      height: 30px;
-      margin-right: 15px;
+      margin-top: 3px;
+      height: 37px;
+      margin-right: 7px;
     }
   }
 
@@ -36,6 +38,8 @@
       list-style: none;
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      margin: auto;
 
       a {
         text-decoration: none;
@@ -50,16 +54,29 @@
 
       .navbar-item {
         color: black;
-        font-family: Manrope;
-        padding: 25px 15px;
+        margin: auto;
+        padding: 0 5px;
       }
     }
 
   }
 }
 
+@media (min-width: 843px) {
+  .DesktopHeader {
+    .DesktopNavbar {
+      .DesktopNavbar-items {
+        .navbar-item {
+          color: black;
+          margin: 0 15px;
+        }
+      }
+    }
+  }
+}
+
 @media (min-width: 1440px) {
   .DesktopHeader {
-    max-width: 1200px;
+    max-width: 1128px;
   }
 }

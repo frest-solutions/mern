@@ -20,7 +20,7 @@ function Chats() {
     itemRoute: routes.CHAT
   }
 
-  const header = { title: 'Чат', text: 'Общайтесь со специалистами' }
+  const header = { title: 'Frest', text: '' }
   const headerConfig = {
     fixed: true
   }

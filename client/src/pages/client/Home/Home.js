@@ -5,11 +5,11 @@ import {routes} from '../../../shared/constants'
 import home from '../../../store/modules/home'
 import './Home.scss'
 
-import filterIcon from '../../../shared/assets/images/icons/filter/filterIcon.svg'
+// import filterIcon from '../../../shared/assets/images/icons/filter/filterIcon.svg'
 import Search from '../../../shared/components/Search'
 import ListItem from '../../../shared/components/ListItem'
 import BaseLayout from '../../../shared/layouts/client/BaseLayout'
-import Filter from '../../../shared/components/Filter'
+// import Filter from '../../../shared/components/Filter'
 import Loading from '../../../shared/components/Loading'
 import Error from '../../../shared/components/Error'
 import {AuthContext} from "../../../shared/contexts/AuthContext/AuthContext";
@@ -20,17 +20,17 @@ const Home = () => {
   const listItemConfig = {
     itemRoute: routes.ORDER,
   }
-  const header = {title: 'Frest', text: 'Сервис для поиска услуг'}
-  const [isActive, setIsActive] = useState(false)
+  const header = {title: 'Frest', text: ''}
+  // const [isActive, setIsActive] = useState(false)
   const authData = useContext(AuthContext)
 
   useEffect(() => {
-    authData.isAuthenticated && dispatch(home.actions.getAllServices())
+    dispatch(home.actions.getAllServices())
   }, [dispatch])
 
-  const handleShowFilterModal = () => {
-    setIsActive(!isActive)
-  }
+  // const handleShowFilterModal = () => {
+  //   setIsActive(!isActive)
+  // }
   const handleReload = () => {
     dispatch(home.actions.getAllServices())
   }
@@ -44,8 +44,7 @@ const Home = () => {
   return (
     <BaseLayout header={header}>
       <div className='Home'>
-
-        <StickyContainer className={'container'}>
+        <StickyContainer>
 
           <Sticky>
             {({style, isSticky}) => (
@@ -55,11 +54,11 @@ const Home = () => {
             )}
           </Sticky>
 
-          <section onClick={handleShowFilterModal} className='filter-container'>
-            <img className={'filter-icon'} src={filterIcon} alt='filterIcon'/>
-            <p className={'filter-text'}>Фильтры</p>
-          </section>
-          <Filter handleShowFilterModal={handleShowFilterModal} isActive={isActive}/>
+          {/*<section onClick={handleShowFilterModal} className='filter-container'>*/}
+          {/*  <img className={'filter-icon'} src={filterIcon} alt='filterIcon'/>*/}
+          {/*  <p className={'filter-text'}>Фильтры</p>*/}
+          {/*</section>*/}
+          {/*<Filter handleShowFilterModal={handleShowFilterModal} isActive={isActive}/>*/}
 
 
           <section className={'list-container'}>

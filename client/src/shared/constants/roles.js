@@ -1,6 +1,6 @@
 const roles = {
-  CLIENT: 'client',
-  SPECIALIST: 'specialist'
+  CLIENT: 'CLIENT',
+  SPECIALIST: 'SPECIALIST'
 }
 
 export default roles

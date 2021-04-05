@@ -10,9 +10,9 @@ import {useEffect, useState} from "react";
 import {roles} from "../../shared/constants";
 import BaseLayout from "../../shared/layouts/client/BaseLayout";
 
-
 const ValidateSchema = Yup.object().shape({
-  email: Yup.string().email('Введите корректный email')
+  email: Yup.string()
+    .email('Введите корректный email')
     .required('Email не может быть пустым'),
   password: Yup.string()
     .required('Пароль не может быть пустым')
@@ -20,20 +20,19 @@ const ValidateSchema = Yup.object().shape({
   role: Yup.string()
 })
 
-function Auth(props) {
+function Auth() {
   const dispatch = useDispatch()
   const {loading, error, authData} = useSelector(state => state.auth, shallowEqual)
   const authContext = useContext(AuthContext);
   const [isLoginPage, setLoginPage] = useState(true)
-  const header = {title: 'Frest', text: isLoginPage ? 'Авторизация' : 'Регистрация'}
-
-
-  const handleChangePage = () => {
-    setLoginPage(!isLoginPage)
-  }
+  const header = {title: 'Frest', text: ''}
 
   useEffect(() => {
-    authData && authContext.login(authData.token, authData.userId, authData.role)
+    if (!authData?.token) {
+      authContext.logout()
+    } else {
+      authContext.login(authData?.token || null, authData?.userId || null, authData?.role || null)
+    }
   }, [authData])
 
   const handleSubmit = async (value) => {
@@ -41,8 +40,12 @@ function Auth(props) {
       dispatch(auth.actions.login(value))
     } else {
       await dispatch(auth.actions.register(value))
-      dispatch(auth.actions.login(value))
+      await dispatch(auth.actions.login(value))
     }
+  }
+
+  const handleChangePage = () => {
+    setLoginPage(!isLoginPage)
   }
 
   if (loading) {
@@ -52,83 +55,129 @@ function Auth(props) {
     <BaseLayout header={header}>
       <div className='Auth'>
 
-        <button className='btn-regular'
-                onClick={handleChangePage}>{isLoginPage ? 'Регистрация' : 'Уже есть аккаунт?'}
-        </button>
-
+        <h3 className="title">
+          {isLoginPage ? 'Вход' : 'Регистрация'}
+        </h3>
         <div className='auth-form'>
+          {
+            !isLoginPage
+              ?
+              <Formik
+                initialValues={{
+                  email: '',
+                  password: '',
+                  role: roles.CLIENT
+                }}
+                validationSchema={ValidateSchema}
+                validateOnMount={true}
+                onSubmit={(values) => {
+                  if (!values.role) {
+                    values.role = roles.CLIENT
+                  }
+                  handleSubmit(values)
+                }}
+              >
+                {
+                  props => {
+                    const {isValid, errors, setFieldValue, touched} = props
+                    return (
+                      <Form>
 
-          <Formik
-            initialValues={!isLoginPage
-              ? {
-                email: '',
-                password: '',
-                role: roles.CLIENT
-              }
-              : {
-                email: '',
-                password: '',
-              }}
-            validationSchema={ValidateSchema}
-            validateOnMount={true}
-            onSubmit={(values) => {
-              if (!isLoginPage && !values.role) {
-                values.role = roles.CLIENT
-              }
-              handleSubmit(values)
-            }}
-          >
-            {
-              props => {
-                const {isValid, setFieldValue, values, errors, touched} = props
-                return (
-                  <Form>
+                        <div className='input-group'>
+                          <Field as='select' name='role' className='input-item order-info'>
+                            <option value='CLIENT'>Я Заказчик</option>
+                            <option value='SPECIALIST'>Я Исполнитель</option>
+                          </Field>
 
-                    {!isLoginPage && <div className='input-group'>
-                      <Field as={'select'} id='role' name='role'
-                             className={
-                               errors.role && touched.role
-                                 ? 'input-item order-info error'
-                                 : 'input-item order-info'
-                             }
-                      >
-                        <option value={roles.CLIENT}>Я Заказчик</option>
-                        <option value={roles.SPECIALIST}>Я Исполнитель</option>
-                      </Field>
-                      <ErrorMessage component='p' className={'error'} name='role'/>
-                    </div>}
+                        </div>
 
-                    <div className='input-group'>
-                      <Field id='email' name='email'
-                             className={
-                               errors.email && touched.email
-                                 ? 'input-item order-info error'
-                                 : 'input-item order-info'
-                             }
-                             placeholder='Ваш email'/>
-                      <ErrorMessage component='p' className={'error'} name='email'/>
-                    </div>
+                        <div className='input-group'>
+                          <Field id='email' name='email'
+                                 className={
+                                   errors.email && touched.email
+                                     ? 'input-item order-info error'
+                                     : 'input-item order-info'
+                                 }
+                                 placeholder='Ваш email'/>
+                          <ErrorMessage component='p' className={'error'} name='email'/>
+                        </div>
 
-                    <div className='input-group'>
-                      <Field id='password' name='password' type='password' suggested='current-password'
-                             className={errors.password && touched.password ? 'input-item white error' : 'input-item white'}
-                             placeholder='Ваш пароль'/>
-                      <ErrorMessage component='p' name='password'/>
-                    </div>
+                        <div className='input-group'>
+                          <Field id='password' name='password' type='password' suggested='current-password'
+                                 className={errors.password && touched.password ? 'input-item white error' : 'input-item white'}
+                                 placeholder='Ваш пароль'/>
+                          <ErrorMessage component='p' name='password'/>
+                        </div>
 
-                    <div className='error-items'>
-                      <p className="error">{error && error.message}</p>
-                    </div>
+                        <div className='error-items'>
+                          <p className="error">{error && error.message}</p>
+                        </div>
 
-                    <button disabled={!isValid} className={`btn-confirm${!isValid ? ' disabled' : ''}`} type='submit'>
-                      {!isLoginPage ? 'Регистрация' : 'Войти'}
-                    </button>
+                        <button disabled={!isValid} className={`btn-regular fill${!isValid ? ' disabled' : ''}`}
+                                type='submit'>Регистрация
+                        </button>
 
-                  </Form>)
-              }
-            }
-          </Formik>
+                      </Form>)
+                  }
+                }
+              </Formik>
 
+              : <Formik
+                initialValues={{
+                  email: '',
+                  password: '',
+                }}
+                validationSchema={ValidateSchema}
+                validateOnMount={true}
+                onSubmit={(values) => {
+                  handleSubmit(values)
+                }}
+              >
+                {
+                  props => {
+                    const {isValid, errors, touched} = props
+                    return (
+                      <Form>
+                        <div className='input-group'>
+                          <Field id='email' name='email'
+                                 className={
+                                   errors.email && touched.email
+                                     ? 'input-item order-info error'
+                                     : 'input-item order-info'
+                                 }
+                                 placeholder='Ваш email'/>
+                          <ErrorMessage component='p' className={'error'} name='email'/>
+                        </div>
+
+                        <div className='input-group'>
+                          <Field id='password' name='password' type='password' suggested='current-password'
+                                 className={errors.password && touched.password ? 'input-item white error' : 'input-item white'}
+                                 placeholder='Ваш пароль'/>
+                          <ErrorMessage component='p' name='password'/>
+                        </div>
+
+                        <div className='error-items'>
+                          <p className="error">{error && error.message}</p>
+                        </div>
+
+                        <button disabled={!isValid} className={`btn-regular fill${!isValid ? ' disabled' : ''}`}
+                                type='submit'>Войти
+                        </button>
+                      </Form>)
+                  }
+                }
+              </Formik>
+          }
+
+
+        </div>
+        <div className="items">
+          <p className="text">
+            {isLoginPage ? 'Нет регистрации?' : 'Уже есть аккаунт?'}
+          </p>
+          <button className='btn-regular fill'
+                  onClick={handleChangePage}>{isLoginPage ? 'Регистрация' : 'Вход'}
+          </button>
         </div>
 
 

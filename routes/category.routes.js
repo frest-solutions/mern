@@ -19,7 +19,7 @@ router.post('/service/create', authMiddleware, async (req, res) => {
   }
 })
 
-router.get('/service', authMiddleware, async (req, res) => {
+router.get('/service', async (req, res) => {
   try {
     const service = await Service.find({})
     res.json(service)
@@ -30,13 +30,10 @@ router.get('/service', authMiddleware, async (req, res) => {
   }
 })
 
-router.get('/service/:id', authMiddleware, async (req, res) => {
-  console.log(req.params)
-  try {
-    console.log(req.params.id)
-    const service = await Service.findById(req.params.id)
-    console.log(service)
+router.get('/service/:id', async (req, res) => {
 
+  try {
+    const service = await Service.findById(req.params.id)
     // const subCategory = await SubCategory.findById(service.subCategoryId)
     // const category = await Category.findById(subCategory.categoryId)
     res.json(service)

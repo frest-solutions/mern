@@ -78,13 +78,6 @@ auth.actions = {
         if (response.statusText !== 'OK') {
           throw new Error(response.message || 'Что-то пошло не так')
         }
-
-        // const authRes = await authAPI.login(form)
-        // if (authRes.statusText !== 'OK') {
-        //   throw new Error(response.message || 'Что-то пошло не так')
-        // }
-        // dispatch(auth.actions.setAuth(authRes.data))
-
         dispatch(auth.actions.loading(false))
       } catch (e) {
         dispatch(auth.actions.loading(false))
@@ -102,7 +95,9 @@ auth.actions = {
         if (response.statusText !== 'OK') {
           throw new Error(response.message || 'Что-то пошло не так')
         }
-
+        // localStorage.setItem('userData', JSON.stringify({
+        //   userId: response.data.userId, token: response.data.token, role: response.data.role
+        // }))
         dispatch(auth.actions.setAuth(response.data))
         dispatch(auth.actions.loading(false))
       } catch (e) {

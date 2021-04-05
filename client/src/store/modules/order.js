@@ -7,36 +7,51 @@ order.types = {
   LOADING: 'order/LOADING',
   SET_SERVICE: 'order/SET_SERVICE',
   CREATE: 'order/CREATE',
-  ERROR: 'order/ERROR'
+  URL: 'order/URL',
+  ERROR: 'order/ERROR',
+  IS_CREATED: 'order/IS_CREATED',
 }
 
 const initialState = {
   service: null,
-  item: null,
+  item: {
+    photos: []
+  },
   loading: false,
-  error: null
+  error: null,
+  isCreated: false,
 }
 
 order.reducer = (state = initialState, action) => {
   switch (action.type) {
     case order.types.LOADING:
       return {
-        ...state, loading: action.payload
+        ...state, loading: action.payload, error: null
       }
 
     case order.types.SET_SERVICE:
       return {
-        ...state, service: action.payload
+        ...state, service: action.payload, error: null
       }
 
     case order.types.CREATE:
       return {
-        ...state, item: action.payload, error: null
+        ...state, item: {...state.item, ...action.payload}, error: null
+      }
+
+    case order.types.URL:
+      return {
+        ...state, item: {...state.item, photos: [...state.item.photos, action.payload]}, error: null
+      }
+
+    case order.types.IS_CREATED:
+      return {
+        ...state, isCreated: action.payload, error: null
       }
 
     case order.types.ERROR:
       return {
-        ...state, loading: false, error: action.payload
+        ...state, item: {photos: []}, service: null, loading: false, error: action.payload, isCreated: false
       }
 
     default:
@@ -57,6 +72,12 @@ order.actions = {
       payload: item
     }
   },
+  isCreated(bool) {
+    return {
+      type: order.types.IS_CREATED,
+      payload: bool
+    }
+  },
   error(item) {
     return {
       type: order.types.ERROR,
@@ -67,6 +88,12 @@ order.actions = {
     return {
       type: order.types.SET_SERVICE,
       payload: service
+    }
+  },
+  setTaskUrl(url) {
+    return {
+      type: order.types.URL,
+      payload: url
     }
   },
   createOrder(value) {
@@ -83,14 +110,30 @@ order.actions = {
     }
   },
 
+  uploadPhotos(photo) {
+    return async (dispatch) => {
+      try {
+        dispatch(order.actions.loading(true))
+        const formData = new FormData()
+        await formData.append('file', photo)
+        const response = await tasksAPI.uploadPhoto(formData)
+        dispatch(order.actions.setTaskUrl(response.data.url))
+        dispatch(order.actions.loading(false))
+      } catch (e) {
+        dispatch(order.actions.error(e))
+      }
+    }
+  },
+
   getService(id) {
     return async (dispatch) => {
       try {
         dispatch(order.actions.loading(true))
+        dispatch(order.actions.isCreated(false))
         const response = await categoriesAPI.getService(id)
-        if (response.statusText !== 'OK') {
-          throw new Error(response.message || 'Что-то пошло не так')
-        }
+        // if (response.statusText !== 'OK') {
+        //   throw new Error(response.message || 'Что-то пошло не так')
+        // }
         dispatch(order.actions.setService(response.data))
         dispatch(order.actions.loading(false))
       } catch (e) {
@@ -102,13 +145,23 @@ order.actions = {
     return async (dispatch, getState) => {
       try {
         dispatch(order.actions.loading(true))
-        const {item, service} = getState().order
+        const {item} = getState().order
         const response = await tasksAPI.create(item)
-        if (response.statusText !== 'OK') {
+        if (response.statusText !== 'Created') {
           throw new Error(response.message || 'Что-то пошло не так')
         }
-        dispatch(order.actions.setService(null))
+        dispatch(order.actions.loading(false))
+      } catch (e) {
+        dispatch(order.actions.error(e))
+      }
+    }
+  },
+  isCreatedTask() {
+    return async (dispatch) => {
+      try {
+        dispatch(order.actions.loading(true))
         dispatch(order.actions.create(null))
+        dispatch(order.actions.isCreated(true))
         dispatch(order.actions.loading(false))
       } catch (e) {
         dispatch(order.actions.error(e))

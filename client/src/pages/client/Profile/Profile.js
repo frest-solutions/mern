@@ -1,7 +1,7 @@
 import BaseLayout from '../../../shared/layouts/client/BaseLayout'
 import './Profile.scss'
 import avatar from '../../../shared/assets/images/icons/avatar/avatar.svg'
-import Accordion from '../../../shared/components/Accordion'
+import AccordionUI from '../../../shared/components/Accordion/AccordionUI'
 import {useDispatch, useSelector} from 'react-redux'
 import {useEffect, useContext} from 'react'
 import profile from '../../../store/modules/profile'
@@ -10,33 +10,37 @@ import Error from '../../../shared/components/Error'
 import {imgApiUrl} from '../../../api'
 import {roles} from '../../../shared/constants'
 import {AuthContext} from "../../../shared/contexts/AuthContext/AuthContext";
-import {StickyContainer} from "react-sticky";
+import auth from "../../../store/modules/auth";
 
 function Profile() {
   const dispatch = useDispatch()
   const {item, tasks, loading, error} = useSelector(state => state.profile)
   const {items} = useSelector(state => state.home)
   const {role, logout} = useContext(AuthContext)
+  const accordionConfig = {
+    profilePage: true
+  }
 
-  const header = {title: 'Профиль', text: item && item.phone}
+  const header = {title: 'Frest', text: ''}
   const data = {
     title: role === roles.CLIENT ? 'Мои заказы' : 'Мои задачи',
     count: tasks && tasks.length
   }
-  const changeRoleText = `Стать ${role === 'client' ? 'исполнителем' : 'заказчиком'}`
+  // const changeRoleText = `Стать ${role === 'client' ? 'исполнителем' : 'заказчиком'}`
 
   useEffect(() => {
-    // dispatch(profile.actions.getProfile())
+    dispatch(profile.actions.getProfile())
     dispatch(profile.actions.getTasks())
   }, [dispatch])
 
   const handleReload = () => {
-    // dispatch(profile.actions.getProfile())
+    dispatch(profile.actions.getProfile())
     dispatch(profile.actions.getTasks())
   }
 
   const handleLogOut = () => {
     logout()
+    dispatch(auth.actions.setAuth(null))
   }
 
   // const handleChangeRole = () => {
@@ -66,7 +70,7 @@ function Profile() {
           </div>
           <h3 className={'profile-items-title'}>Моя активность</h3>
 
-          {tasks && <Accordion item={data} subItems={tasks}/>}
+          {tasks && <AccordionUI config={accordionConfig} item={data} subItems={tasks}/>}
 
         </div>
       </BaseLayout>
@@ -78,7 +82,7 @@ function Profile() {
           <div className='profile-name'>
             <img className={'avatar'} src={item?.userImg ? imgApiUrl + item.userImg : avatar} alt='avatar'/>
             <div className='profile-name-item'>
-              <h2 className='title'>{item?.name + ' ' + item?.surname}</h2>
+              <h2 className='title'>{item?.name || 'Пользователь' + ' ' + item?.surname || ''}</h2>
               <p className='text'>Исполнитель</p>
               {/*<button className={'btn-regular'}*/}
               {/*        onClick={handleChangeRole}>{changeRoleText}</button>*/}

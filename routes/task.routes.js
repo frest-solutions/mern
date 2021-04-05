@@ -4,7 +4,6 @@ const Service = require('../models/Service')
 const router = Router()
 const authMiddleware = require('../middleware/auth.middleware')
 
-
 router.post('/create', authMiddleware, async (req, res) => {
 
   try {
@@ -53,6 +52,19 @@ router.get('/:id', authMiddleware, async (req, res) => {
     res.status(500)
       .json({message: 'Что-то пошло не так, попробуйте снова'})
   }
+})
+
+router.delete('/:id', async (req, res) => {
+
+  try {
+    await Task.findOneAndDelete({_id: req.params.id})
+    res.json({success: req.params.id})
+
+  } catch (e) {
+    res.status(500)
+      .json({message: 'Что-то пошло не так, попробуйте снова'})
+  }
+
 })
 
 module.exports = router

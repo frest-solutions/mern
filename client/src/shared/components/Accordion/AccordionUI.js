@@ -1,12 +1,15 @@
 import ListItem from '../ListItem'
 import './Accordion.scss'
 import arrow from '../../assets/images/icons/arrow.svg'
-import {useContext} from 'react'
-import {AuthContext} from "../../contexts/AuthContext/AuthContext";
+import {Accordion, Card} from "react-bootstrap";
+// import {useContext} from 'react'
+// import {AuthContext} from "../../contexts/AuthContext/AuthContext";
 
-function Accordion({config, item, subItems}) {
+function AccordionUI({config, item, subItems}) {
 
-  const {role} = useContext(AuthContext)
+  // const {role} = useContext(AuthContext)
+
+  const bootstrap = true
 
   if (config?.order) {
     return (
@@ -26,6 +29,35 @@ function Accordion({config, item, subItems}) {
           </section>
         </div>
       </div>
+    )
+  }
+
+  if (bootstrap) {
+    return (
+      <Accordion defaultActiveKey={item._id ? item._id : 1}>
+        <Card>
+          <Accordion.Toggle as={Card.Header} eventKey={item._id ? item._id : 1}>
+
+            {item.title || ''}
+            <span className={'count'}>{subItems.length}
+              <img className={'arrow'} src={arrow} alt='arrow'/>
+            </span>
+
+
+          </Accordion.Toggle>
+          <Accordion.Collapse eventKey={item._id ? item._id : 1}>
+            <Card.Body>
+              {
+                // config?.clientProfile
+                //   ? subItems.map(o => <ListItem key={o.id} config={config} item={o}/>)
+                //   : subItems.filter(o => o.subCategoryId === item.id)
+                //     .map(o => <ListItem key={o.id} config={config} item={o}/>)
+                subItems.map(o => <ListItem key={o._id} config={config} item={o}/>)
+              }
+            </Card.Body>
+          </Accordion.Collapse>
+        </Card>
+      </Accordion>
     )
   }
 
@@ -51,6 +83,8 @@ function Accordion({config, item, subItems}) {
       </div>
     </div>
   )
+
+
 }
 
-export default Accordion
+export default AccordionUI

@@ -1,19 +1,28 @@
-import './Loading.scss'
+import React from 'react';
+import Pulse from 'react-reveal/Pulse';
 
-function Loading(props) {
+import './Loading.scss';
+
+import logo from '../../assets/images/logos/logo.png';
+
+function Loader() {
   return (
-    <div className='lds-grid'>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
+    <div className="Loader">
+      <Pulse forever>
+        <div className='lds-grid'>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </Pulse>
     </div>
   )
 }
 
-export default Loading
+export default Loader;

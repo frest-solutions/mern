@@ -1,6 +1,5 @@
 .Order {
   .category {
-    padding: 0px 18px;
     min-height: 92px;
     border-radius: 7.3px;
     background-color: #fff;
@@ -15,8 +14,8 @@
     .text.date {
       font-size: 13px;
       position: absolute;
-      right: 18px;
-      top: 40%;
+      right: 0;
+      top: 60%;
     }
 
     .title {
@@ -35,7 +34,7 @@
   }
 
   .order-form {
-    margin: 12px 37px;
+    margin: 12px 15px;
 
 
     form {
@@ -89,6 +88,20 @@
       overflow: hidden;
       width: 0.4px;
       height: 0.4px;
+    }
+
+    .uploaded-photos {
+      margin-top: 5px;
+      margin-bottom: 15px;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      img {
+        width: calc(50% - 3px);
+        margin-bottom: 6px;
+      }
     }
 
     .upload-file__label {

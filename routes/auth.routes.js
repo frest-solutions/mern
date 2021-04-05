@@ -4,6 +4,8 @@ const config = require('config')
 const jwt = require('jsonwebtoken')
 const {check, validationResult} = require('express-validator')
 const User = require('../models/User')
+const Role = require('../models/Role')
+const authMiddleware = require('../middleware/auth.middleware')
 const router = Router()
 
 router.post(
@@ -34,9 +36,13 @@ router.post(
         return res.status(400)
           .json({message: 'Такой пользователь уже существует'})
       }
-
+      const userRole = await Role.findOne({value: role})
       const hashedPassword = await bcrypt.hash(password, 12)
-      const user = new User({email, role, password: hashedPassword})
+      const user = new User({
+        email,
+        role: userRole.value,
+        password: hashedPassword
+      })
 
       await user.save()
       res.status(201).json({message: 'Пользователь создан'})
@@ -84,7 +90,7 @@ router.post(
       }
 
       const token = jwt.sign(
-        {userId: user.id},
+        {userId: user.id, role: user.role},
         config.get('jwtSecret'),
         {expiresIn: '24h'}
       )
@@ -96,8 +102,26 @@ router.post(
         .json({message: 'Что-то пошло не так, попробуйте снова'})
     }
 
-
   }
 )
+
+router.get('/profile', authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId)
+
+    if (!user) {
+      return res.status(400).json({
+        message: 'Пользователь не найден'
+      })
+    }
+
+    res.json(user)
+
+  } catch (e) {
+    res.status(500)
+      .json({message: 'Что-то пошло не так, попробуйте снова'})
+  }
+})
+
 
 module.exports = router

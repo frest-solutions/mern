@@ -1,5 +1,5 @@
-import { profileAPI, tasksAPI } from '../../api'
-import { roles } from '../../shared/constants'
+import {profileAPI, tasksAPI} from '../../api'
+import {roles} from '../../shared/constants'
 
 const profile = {}
 
@@ -73,10 +73,10 @@ profile.actions = {
     return async (dispatch) => {
       try {
         dispatch(profile.actions.loading(true))
-        const response = await profileAPI.auth()
-        // if (!response.ok) {
-        //   throw new Error('Bad http status')
-        // }
+        const response = await profileAPI.getProfile()
+        if (response.statusText !== 'OK') {
+          throw new Error(response.message || 'Что-то пошло не так')
+        }
         dispatch(profile.actions.setProfile(response.data))
         dispatch(profile.actions.loading(false))
       } catch (e) {
@@ -100,13 +100,33 @@ profile.actions = {
     }
   },
 
+  deleteTask(id) {
+    return async (dispatch, getState) => {
+      try {
+        dispatch(profile.actions.loading(true))
+        const {tasks} = getState().profile
+
+        const newTasks = tasks.filter(t => t._id !== id)
+        const response = await tasksAPI.deleteTask(id)
+        console.log(response)
+        if (response.statusText !== 'OK') {
+          throw new Error(response.message || 'Что-то пошло не так')
+        }
+        dispatch(profile.actions.setTasks(newTasks))
+        dispatch(profile.actions.loading(false))
+      } catch (e) {
+        dispatch(profile.actions.error(e))
+      }
+    }
+  },
+
   changeRole() {
     return async (dispatch, getState) => {
       try {
-        const { item } = getState().profile
+        const {item} = getState().profile
         const role = item.role === roles.CLIENT ? roles.SPECIALIST : roles.CLIENT
         dispatch(profile.actions.loading(true))
-        const newItem = { ...item, role }
+        const newItem = {...item, role}
         const response = await tasksAPI.changeRole(newItem)
         dispatch(profile.actions.setProfile(response.data))
 
