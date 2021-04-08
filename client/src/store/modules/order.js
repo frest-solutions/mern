@@ -7,7 +7,7 @@ order.types = {
   LOADING: 'order/LOADING',
   SET_SERVICE: 'order/SET_SERVICE',
   CREATE: 'order/CREATE',
-  URL: 'order/URL',
+  ADD_PHOTOS: 'order/ADD_PHOTOS',
   ERROR: 'order/ERROR',
   IS_CREATED: 'order/IS_CREATED',
 }
@@ -39,7 +39,7 @@ order.reducer = (state = initialState, action) => {
         ...state, item: {...state.item, ...action.payload}, error: null
       }
 
-    case order.types.URL:
+    case order.types.ADD_PHOTOS:
       return {
         ...state, item: {...state.item, photos: [...state.item.photos, action.payload]}, error: null
       }
@@ -90,9 +90,9 @@ order.actions = {
       payload: service
     }
   },
-  setTaskUrl(url) {
+  addPhotos(url) {
     return {
-      type: order.types.URL,
+      type: order.types.ADD_PHOTOS,
       payload: url
     }
   },
@@ -101,7 +101,8 @@ order.actions = {
       try {
         dispatch(order.actions.loading(true))
         const {item} = getState().order
-        const task = {...item, ...value}
+        const task = {...item, ...value, photos: [...item.photos]}
+        debugger
         dispatch(order.actions.create(task))
         dispatch(order.actions.loading(false))
       } catch (e) {
@@ -117,7 +118,7 @@ order.actions = {
         const formData = new FormData()
         await formData.append('file', photo)
         const response = await tasksAPI.uploadPhoto(formData)
-        dispatch(order.actions.setTaskUrl(response.data.url))
+        dispatch(order.actions.addPhotos(response.data.url))
         dispatch(order.actions.loading(false))
       } catch (e) {
         dispatch(order.actions.error(e))

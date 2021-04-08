@@ -30,10 +30,7 @@ function Order() {
   const {id} = useParams()
   const dispatch = useDispatch()
   const {service, loading, error, item} = useSelector(state => state.order, shallowEqual)
-  console.log(service, 'and', item)
-  setInterval(() => {
-    console.log(service, 'and', item)
-  }, 10000)
+
   const date = new Date
   const getCreatedDate = (d) => {
     return `${d.getDate()}/${(d.getMonth() + 1) < 10 ? `0${d.getMonth() + 1}` : (d.getMonth() + 1)}/${d.getFullYear()}`
@@ -52,8 +49,9 @@ function Order() {
     router.push(routes.ORDERCONFIRM.replace(':id', id))
   }
 
-  const handleUpload = (file) => {
-    dispatch(order.actions.uploadPhotos(file))
+  const handleUpload = async (file, value) => {
+    await dispatch(order.actions.uploadPhotos(file))
+    dispatch(order.actions.createOrder(value))
   }
 
   if (loading) {
@@ -78,11 +76,11 @@ function Order() {
         <div className={'order-form'}>
           <Formik
             initialValues={{
-              description: '',
-              price: '',
+              description: item?.description || '',
+              price: item?.price || '',
               serviceId: service?._id,
               title: service?.title,
-              photos: item?.photos
+              photos: item?.photos || []
             }}
             validationSchema={ValidateSchema}
             validateOnMount={true}
@@ -124,7 +122,8 @@ function Order() {
                         type="file"
                         name="photos"
                         onChange={(event) => {
-                          handleUpload(event.target.files[0])
+                          event.preventDefault()
+                          handleUpload(event.target.files[0], values)
                         }}
                       />
                       {item?.photos.length !== 0 ? <div className='uploaded-photos'>

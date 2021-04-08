@@ -9,10 +9,13 @@ const schema = new Schema({
   price: {type: String, required: true},
   phone: {type: String, required: true},
 
+  photos: [{type: String}],
+  isCanCall: {type: Boolean, default: true},
+  isCanText: {type: Boolean, default: true},
+
   owner: {type: Types.ObjectId, ref: 'User'},
   serviceId: {type: Types.ObjectId, ref: 'Service'},
   status: {type: String, default: 'active'}
-
 })
 
 module.exports = model('Task', schema)

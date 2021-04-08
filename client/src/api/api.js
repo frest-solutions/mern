@@ -48,6 +48,30 @@ export const profileAPI = {
         headers: {Authorization: `Bearer ${JSON.parse(localStorage.getItem('userData'))?.token}`}
       })
       .catch(e => errorHandler(e))
+  },
+  getUsers() {
+    return instance.get('api/auth/users',
+      {
+        headers: {Authorization: `Bearer ${JSON.parse(localStorage.getItem('userData'))?.token}`}
+      })
+      .catch(e => errorHandler(e))
+  },
+}
+
+export const chatsAPI = {
+  getUserMessages(id) {
+
+    return instance.get(`/api/chat/messages/${id}`, {
+      headers: {Authorization: `Bearer ${JSON.parse(localStorage.getItem('userData'))?.token}`}
+    })
+      .catch(e => errorHandler(e))
+  },
+
+  sendMessage(msg, to) {
+    return instance.post('/api/chat/send', {msg, to, foo: 'bar'}, {
+      headers: {Authorization: `Bearer ${JSON.parse(localStorage.getItem('userData'))?.token}`}
+    })
+      .catch(e => errorHandler(e))
   }
 }
 

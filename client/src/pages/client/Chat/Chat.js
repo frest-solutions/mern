@@ -1,39 +1,49 @@
 import './Chat.scss'
 import BaseLayout from '../../../shared/layouts/client/BaseLayout'
-import ava from '../Chats/temp/Avatar.png'
 import Message from '../../../shared/components/Message'
 import sendIcon from '../../../shared/assets/images/icons/message/sendIcon.svg'
-import { animateScroll as scroll } from 'react-scroll'
-import { useEffect } from 'react'
+import {animateScroll as scroll} from 'react-scroll'
+import chats from '../../../store/modules/chats';
+import {useEffect, useState} from "react";
+import ioClient from "socket.io-client";
+import {useParams} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import profile from "../../../store/modules/profile";
+import Loading from "../../../shared/components/Loading";
 
 function Chat(props) {
-
-
-  const messages = [
-    { id: 1, message: 'Hello Bro, it`s message, for testing component', time: '08:34' },
-    { id: 1, message: 'Very nice', time: '08:34', status: 'Read', isMy: true },
-    { id: 1, message: 'Hello Bro, it`s message, for testing component', time: '08:34' },
-    { id: 1, message: 'Very nice', time: '08:34', status: 'Read', isMy: true },
-    { id: 1, message: 'Hello Bro, it`s message, for testing component', time: '08:34' },
-    {
-      id: 1,
-      message: 'Very nice Hello Bro, it`s message, for testing component Hello Bro, it`s message, for testing component Hello Bro, it`s message, for testing component',
-      time: '08:34',
-      status: 'Read',
-      isMy: true
-    },
-    { id: 1, message: 'Hello Bro, it`s message, for testing component', time: '08:34' }
-  ]
-
-  const scrollToBottom = () => {
-    scroll.scrollToBottom()
-  }
+  const {id} = useParams()//userId
+  const [msg, setMsg] = useState('');
+  const {userMessages, users} = useSelector(state => state.chats);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    scrollToBottom()
-  }, [])
+    dispatch(chats.actions.getMessagesById(id));
+  }, [dispatch])
 
-  const header = { title: 'Alex Marchal', text: '', tel: '992909009999', imgUrl: ava }
+  useEffect(()=>{
+    return function cleanup() {
+      chats.actions.cleanUserMessage();
+    }
+  },[])
+
+  useEffect(() => {
+    scroll.scrollToBottom()
+  }, [userMessages])
+
+  const handleChange = e => {
+    const {value} = e.target;
+    setMsg(value);
+  }
+
+  const handleSend = () => {
+    dispatch(chats.actions.sendMessage(msg, id))
+  }
+  const user = users && users.find(u => u._id === id)
+  const header = {
+    title: users && user?.name + ' ' + user?.surname,
+    text: '', tel: '', imgUrl: user?.imgUrl
+  }
   const config = {
     needReturnText: 'Назад',
     fixed: true,
@@ -45,13 +55,22 @@ function Chat(props) {
       <div className='Chat'>
         <section className='message-item'>
           {
-            messages.map(o => <Message key={o.id} message={o} />)
+            userMessages && userMessages.map(o => <Message key={o._id} message={o}/>)
           }
         </section>
         <section className='input'>
-          <input placeholder={'Type a message'} className={'input-item'} type='text' />
-          <button className='send-button'>
-            <img src={sendIcon} alt='send-button' />
+          <input
+            placeholder={'Type a message'}
+            className={'input-item'}
+            type='text'
+            value={msg}
+            onChange={handleChange}
+          />
+          <button
+            className='send-button'
+            onClick={handleSend}
+          >
+            <img src={sendIcon} alt='send-button'/>
           </button>
         </section>
       </div>

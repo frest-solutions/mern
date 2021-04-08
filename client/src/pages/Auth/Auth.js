@@ -54,7 +54,6 @@ function Auth() {
   return (
     <BaseLayout header={header}>
       <div className='Auth'>
-
         <h3 className="title">
           {isLoginPage ? 'Вход' : 'Регистрация'}
         </h3>
@@ -168,7 +167,6 @@ function Auth() {
                 }
               </Formik>
           }
-
 
         </div>
         <div className="items">

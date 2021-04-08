@@ -1,6 +1,18 @@
-<svg width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M13.75 18.6667L28.875 4" stroke="#9378FF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <path
-    d="M28.875 4L19.9375 28C19.8772 28.1277 19.7804 28.2358 19.6585 28.3117C19.5366 28.3875 19.3948 28.4278 19.25 28.4278C19.1052 28.4278 18.9635 28.3875 18.8416 28.3117C18.7197 28.2358 18.6229 28.1277 18.5625 28L13.75 18.6667L4.12504 14C3.99339 13.9415 3.88183 13.8476 3.80362 13.7294C3.72541 13.6112 3.68384 13.4738 3.68384 13.3333C3.68384 13.1929 3.72541 13.0554 3.80362 12.9373C3.88183 12.8191 3.99339 12.7252 4.12504 12.6667L28.875 4Z"
-    stroke="#9378FF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="18px" viewBox="0 0 20 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>send</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Rounded" transform="translate(-374.000000, -1529.000000)">
+            <g id="Content" transform="translate(100.000000, 1428.000000)">
+                <g id="-Round-/-Content-/-send" transform="translate(272.000000, 98.000000)">
+                    <g>
+                        <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
+                        <path d="M3.4,20.4 L20.85,12.92 C21.66,12.57 21.66,11.43 20.85,11.08 L3.4,3.6 C2.74,3.31 2.01,3.8 2.01,4.51 L2,9.12 C2,9.62 2.37,10.05 2.87,10.11 L17,12 L2.87,13.88 C2.37,13.95 2,14.38 2,14.88 L2.01,19.49 C2.01,20.2 2.74,20.69 3.4,20.4 Z" id="🔹Icon-Color" fill="#9378FF"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
 </svg>

@@ -45,6 +45,7 @@ function OrderConfirm() {
   }
 
   const handleSubmit = async (value) => {
+    value.phone.replace(/[\s-+_]/g, "")
     await dispatch(order.actions.createOrder(value))
     await dispatch(order.actions.postTask())
     !error && dispatch(order.actions.isCreatedTask())
@@ -68,8 +69,8 @@ function OrderConfirm() {
           initialValues={{
             address: '',
             phone: '',
-            // isCanCall: true,
-            // isCanText: true
+            isCanCall: true,
+            isCanText: true
           }}
           validationSchema={ValidateSchema}
           validateOnMount={true}
@@ -93,11 +94,12 @@ function OrderConfirm() {
                   <Field name='phone'>{({field}) => (
                     <MaskedInput
                       {...field}
-                      mask={phoneNumberMask}
+                      mask="+\9\92 99 999-99-99"
+                      type="tel"
                       id='phone'
                       value={values.phone}
-                      placeholder='Номер телефона'
-                      type='text'
+                      placeholder="+992 __ ___-__-__"
+                      alwaysShowMask={false}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       className={

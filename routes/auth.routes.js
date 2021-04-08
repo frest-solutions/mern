@@ -36,6 +36,7 @@ router.post(
         return res.status(400)
           .json({message: 'Такой пользователь уже существует'})
       }
+
       const userRole = await Role.findOne({value: role})
       const hashedPassword = await bcrypt.hash(password, 12)
       const user = new User({
@@ -48,6 +49,7 @@ router.post(
       res.status(201).json({message: 'Пользователь создан'})
 
     } catch (e) {
+      console.log(e)
       res.status(500)
         .json({message: 'Что-то пошло не так, попробуйте снова'})
     }
@@ -58,7 +60,7 @@ router.post(
   '/login',
   [
     check('email', 'Введите корректный email')
-      .normalizeEmail().isEmail(),
+      .isEmail(),
     check('password', 'Введите пароль').exists()
   ],
   async (req, res) => {
@@ -117,6 +119,22 @@ router.get('/profile', authMiddleware, async (req, res) => {
 
     res.json(user)
 
+  } catch (e) {
+    res.status(500)
+      .json({message: 'Что-то пошло не так, попробуйте снова'})
+  }
+})
+
+router.get('/users', authMiddleware, async (req, res) => {
+  try {
+    const users = await User.find({})
+    if (!users) {
+      return res.status(400).json({
+        message: 'Пользователи не найдены'
+      })
+    }
+
+    res.json(users)
   } catch (e) {
     res.status(500)
       .json({message: 'Что-то пошло не так, попробуйте снова'})
