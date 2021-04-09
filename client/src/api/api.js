@@ -1,9 +1,6 @@
 import axios from 'axios'
 
-export const instance = axios.create({
-  baseURL: 'http://localhost:5000/',
-})
-
+export const instance = axios.create({baseURL: 'http://localhost:5000/'})
 export const imgApiUrl = 'http://localhost:5000/upload/'
 
 function errorHandler(error) {

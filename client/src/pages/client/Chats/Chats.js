@@ -16,16 +16,6 @@ function Chats() {
     dispatch(chats.actions.getUsers())
   }, [dispatch])
 
-
-  // const chats = [
-  //   {
-  //     id: 1,
-  //     title: 'Alex Marchal',
-  //     text: 'UX Designer',
-  //     imgUrl: 'avatar'
-  //   }
-  // ]
-
   const listConfig = {
     isUser: true,
     itemRoute: routes.CHAT

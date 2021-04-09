@@ -21,9 +21,19 @@ const App = () => {
   const ENDPOINT = 'http://localhost:5000/'
   const socket = ioClient(ENDPOINT)
   useEffect(() => {
+    // socket.on('connect', data => {
+    //   console.log('new socket', data)
+    // })
     socket.on('msg', data => {
+      // dispatch(chats.actions.onLoadMessage(data));
+      socket.emit('read', data)
+    })
+
+    socket.on('readed', data => {
       dispatch(chats.actions.onLoadMessage(data));
     })
+
+
     socket.on('msgUser', data => {
       dispatch(chats.actions.onLoadUserMessages(data));
     })

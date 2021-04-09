@@ -88,7 +88,7 @@ chats.actions = {
       payload: data
     }
   },
-  cleanUserMessage: () => {
+  cleanUserMessages: () => {
     return {
       type: chats.types.CLEAN_USER_MESSAGE,
       payload: []
@@ -115,8 +115,12 @@ chats.actions = {
   getMessagesById: (id) => {
     return async (dispatch) => {
       try {
+        dispatch(chats.actions.loading(true))
+        dispatch(chats.actions.cleanUserMessages())
         await chatsAPI.getUserMessages(id)
+        dispatch(chats.actions.loading(false))
       } catch (e) {
+        dispatch(chats.actions.loading(false))
         dispatch(chats.actions.error(e))
       }
     }

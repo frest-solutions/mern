@@ -14,31 +14,8 @@ import Loading from "../../../shared/components/Loading";
 function Chat(props) {
   const {id} = useParams()//userId
   const [msg, setMsg] = useState('');
-  const {userMessages, users} = useSelector(state => state.chats);
+  const {userMessages, loading, users} = useSelector(state => state.chats);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(chats.actions.getMessagesById(id));
-  }, [dispatch])
-
-  useEffect(()=>{
-    return function cleanup() {
-      chats.actions.cleanUserMessage();
-    }
-  },[])
-
-  useEffect(() => {
-    scroll.scrollToBottom()
-  }, [userMessages])
-
-  const handleChange = e => {
-    const {value} = e.target;
-    setMsg(value);
-  }
-
-  const handleSend = () => {
-    dispatch(chats.actions.sendMessage(msg, id))
-  }
   const user = users && users.find(u => u._id === id)
   const header = {
     title: users && user?.name + ' ' + user?.surname,
@@ -50,6 +27,38 @@ function Chat(props) {
     blur: true
   }
 
+  useEffect(() => {
+    dispatch(chats.actions.getMessagesById(id))
+  }, [dispatch])
+
+  useEffect(() => {
+    scroll.scrollToBottom()
+  }, [userMessages])
+
+  const handleChange = e => {
+    const {value} = e.target;
+    setMsg(value);
+  }
+
+  const handleEnter = (ev) => {
+    if (ev.key === 'Enter') {
+      dispatch(chats.actions.sendMessage(msg, id))
+      setMsg('')
+    }
+  }
+
+  const handleSend = () => {
+    if (msg.length === 0) {
+      return
+    }
+    dispatch(chats.actions.sendMessage(msg, id))
+    setMsg('')
+  }
+
+
+  if (loading) {
+    return <Loading/>
+  }
   return (
     <BaseLayout header={header} config={config}>
       <div className='Chat'>
@@ -64,6 +73,7 @@ function Chat(props) {
             className={'input-item'}
             type='text'
             value={msg}
+            onKeyPress={handleEnter}
             onChange={handleChange}
           />
           <button
