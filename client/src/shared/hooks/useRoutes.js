@@ -10,7 +10,7 @@ import OrderConfirm from "../../pages/client/OrderConfirm";
 import OrderPubic from "../../pages/client/OrderPubic";
 import Chats from "../../pages/client/Chats";
 import Chat from "../../pages/client/Chat";
-import Profile from "../../pages/client/Profile";
+import Profile from "../../pages/Profile";
 import About from "../../pages/client/About";
 import {lazy, Suspense} from "react";
 import Loading from "../components/Loading";
@@ -42,10 +42,14 @@ export const useRoutes = (isAuthenticated, role) => {
             <Switch>
               <Route path={routes.HOME} component={Tasks} exact/>
               <Route path={routes.PROFILE} component={Profile} exact/>
+              <Route path={routes.CHATS} component={Chats} exact/>
+              <Route path={routes.CHAT} component={Chat} exact/>
               <Redirect to={routes.HOME}/>
             </Switch>
           </Suspense>
         )
+      default:
+        break;
     }
   }
   return (

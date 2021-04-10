@@ -11,6 +11,7 @@ router.post('/service/create', authMiddleware, async (req, res) => {
     const service = new Service({
       title
     })
+
     await service.save()
     res.status(201).json({service})
   } catch (e) {

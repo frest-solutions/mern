@@ -33,7 +33,7 @@ function Auth() {
     } else {
       authContext.login(authData?.token || null, authData?.userId || null, authData?.role || null)
     }
-  }, [authData])
+  }, [authData, authContext])
 
   const handleSubmit = async (value) => {
     if (isLoginPage) {
@@ -78,7 +78,7 @@ function Auth() {
               >
                 {
                   props => {
-                    const {isValid, errors, setFieldValue, touched} = props
+                    const {isValid, errors, touched} = props
                     return (
                       <Form>
 

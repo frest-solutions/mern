@@ -1,4 +1,4 @@
-import {authAPI, instance} from "../../api";
+import {authAPI} from "../../api";
 
 const auth = {}
 

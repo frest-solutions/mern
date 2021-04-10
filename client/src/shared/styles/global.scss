@@ -154,6 +154,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .text {
   color: $regular-text-color;
+  &.green{
+    color: green;
+    font-weight: bold;
+  }
 }
 
 .router-link {

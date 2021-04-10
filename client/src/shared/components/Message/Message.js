@@ -1,6 +1,7 @@
 import './Message.scss'
 import {useContext} from "react";
 import {AuthContext} from "../../contexts/AuthContext/AuthContext";
+import {getCreatedTime} from "../../utils";
 
 function Message({message}) {
   const {userId} = useContext(AuthContext)
@@ -12,10 +13,8 @@ function Message({message}) {
         </p>
         <span className={'time'}>
         {message.sender === userId
-          ? `${message.status
-            ? message.status
-            : 'static_status'} ${message.date.slice(11, 16)} ${message.status ? '√' : ''}`
-          : message.date.slice(11, 16)}
+          ? `${getCreatedTime(message.date)} ${message.status > 1 ? '√√' : '√'}`
+          : getCreatedTime(message.date)}
       </span>
       </div>
     </div>

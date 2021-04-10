@@ -6,8 +6,8 @@ chats.types = {
   LOADING: 'chats/LOADING',
   SET_USERS: 'chats/SET_USERS',
   ERROR: 'chats/ERROR',
-  ON_LOAD_MESSAGE: 'chats/ON_LOAD_MESSAGE',
   ON_LOAD_USER_MESSAGE: 'chats/ON_LOAD_USER_MESSAGE',
+  ON_LOAD_USER_MESSAGES: 'chats/ON_LOAD_USER_MESSAGES',
   CLEAN_USER_MESSAGE: 'chats/CLEAN_USER_MESSAGE',
 }
 
@@ -37,12 +37,12 @@ chats.reducer = (state = initialState, action) => {
         ...state, loading: false, error: action.payload
       }
 
-    case chats.types.ON_LOAD_MESSAGE:
+    case chats.types.ON_LOAD_USER_MESSAGE:
       return {
         ...state, userMessages: [...state.userMessages, action.payload]
       }
 
-    case chats.types.ON_LOAD_USER_MESSAGE:
+    case chats.types.ON_LOAD_USER_MESSAGES:
       return {
         ...state, userMessages: action.payload
       }
@@ -76,15 +76,15 @@ chats.actions = {
       payload: error
     }
   },
-  onLoadMessage: (data) => {
+  onLoadUserMessage: (data) => {
     return {
-      type: chats.types.ON_LOAD_MESSAGE,
+      type: chats.types.ON_LOAD_USER_MESSAGE,
       payload: data
     }
   },
   onLoadUserMessages: (data) => {
     return {
-      type: chats.types.ON_LOAD_USER_MESSAGE,
+      type: chats.types.ON_LOAD_USER_MESSAGES,
       payload: data
     }
   },
@@ -130,6 +130,22 @@ chats.actions = {
     return async (dispatch) => {
       try {
         await chatsAPI.sendMessage(msg, userId);
+      } catch (e) {
+        dispatch(chats.actions.error(e))
+      }
+    }
+  },
+
+  setRead: (id) => {
+    return async (dispatch, getState) => {
+      try {
+        const {userMessages} = getState().chats
+        const newArr = userMessages.map(m => {
+          m.status = 3
+          return m
+        })
+        await chatsAPI.setRead(userMessages, id)
+        dispatch(chats.actions.onLoadUserMessages(newArr))
       } catch (e) {
         dispatch(chats.actions.error(e))
       }

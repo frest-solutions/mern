@@ -5,10 +5,8 @@ import sendIcon from '../../../shared/assets/images/icons/message/sendIcon.svg'
 import {animateScroll as scroll} from 'react-scroll'
 import chats from '../../../store/modules/chats';
 import {useEffect, useState} from "react";
-import ioClient from "socket.io-client";
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import profile from "../../../store/modules/profile";
 import Loading from "../../../shared/components/Loading";
 
 function Chat(props) {
@@ -28,8 +26,12 @@ function Chat(props) {
   }
 
   useEffect(() => {
+    dispatch(chats.actions.setRead(id))
+  }, [])
+
+  useEffect(() => {
     dispatch(chats.actions.getMessagesById(id))
-  }, [dispatch])
+  }, [dispatch, id])
 
   useEffect(() => {
     scroll.scrollToBottom()

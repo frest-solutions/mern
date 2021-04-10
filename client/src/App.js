@@ -1,15 +1,15 @@
 import Navbar from './shared/layouts/client/BaseLayout/components/Navbar'
 import Loading from "./shared/components/Loading";
-
 import {BrowserRouter} from 'react-router-dom'
 import useWindowWidth from './shared/hooks'
 import {useRoutes} from "./shared/hooks/useRoutes";
 import {useAuth} from "./shared/hooks/useAuth";
 import {AuthContext} from "./shared/contexts/AuthContext/AuthContext";
 import {useEffect} from "react";
-import {shallowEqual, useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import ioClient from "socket.io-client";
 import chats from "./store/modules/chats";
+import profile from "./store/modules/profile";
 
 const App = () => {
   const {token, login, logout, userId, role, ready} = useAuth()
@@ -20,24 +20,29 @@ const App = () => {
 
   const ENDPOINT = 'http://localhost:5000/'
   const socket = ioClient(ENDPOINT)
+
   useEffect(() => {
-    // socket.on('connect', data => {
-    //   console.log('new socket', data)
-    // })
     socket.on('msg', data => {
-      // dispatch(chats.actions.onLoadMessage(data));
+      dispatch(chats.actions.onLoadUserMessage(data));
       socket.emit('read', data)
     })
 
-    socket.on('readed', data => {
-      dispatch(chats.actions.onLoadMessage(data));
-    })
-
-
-    socket.on('msgUser', data => {
+    socket.on(userId?.toString(), data => {
       dispatch(chats.actions.onLoadUserMessages(data));
     })
-  }, [])
+    socket.on('task', data => {
+      dispatch(profile.actions.setTask(data));
+    })
+    socket.on('tasks', data => {
+      dispatch(profile.actions.setTasks(data));
+    })
+    socket.on('specTask', data => {
+      dispatch(profile.actions.setSpecTask(data));
+    })
+    socket.on('specTasks', data => {
+      dispatch(profile.actions.setSpecTasks(data));
+    })
+  }, [userId, socket, dispatch])
 
   return (
     <AuthContext.Provider value={{
@@ -52,6 +57,3 @@ const App = () => {
 }
 
 export default App
-
-export class instance {
-}

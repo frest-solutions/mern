@@ -1,12 +1,14 @@
 const {Schema, model, Types} = require('mongoose')
 
 const schema = new Schema({
-  created: {type: Date, default: Date.now},
+  created: {type: Date, default: Date.now()},
   dateOfBirth: {type: Date},
   name: {type: String},
   surname: {type: String},
   phone: {type: String},
   imgUrl: {type: String, default: 'avatar.png'},
+  lastSeen: {type: Date},
+  paidUntil: {type: Date},
 
   email: {type: String, required: true, unique: true},
   password: {type: String, required: true},

@@ -39,6 +39,20 @@ router.post(
 
       const userRole = await Role.findOne({value: role})
       const hashedPassword = await bcrypt.hash(password, 12)
+
+      if (userRole.value === 'SPECIALIST') {
+        const user = new User({
+          email,
+          role: userRole.value,
+          password: hashedPassword,
+          paidUntil: Date.now() + 1.728e+8 //48hours
+        })
+
+        await user.save()
+        res.status(201).json({message: 'Пользователь создан'})
+        return
+      }
+
       const user = new User({
         email,
         role: userRole.value,
@@ -78,6 +92,7 @@ router.post(
       const {email, password} = req.body
 
       const user = await User.findOne({email})
+      // await User.updateOne({_id: user._id}, {$set: {lastSeen: Date.now()}})
 
       if (!user) {
         return res.status(400).json({
@@ -116,7 +131,7 @@ router.get('/profile', authMiddleware, async (req, res) => {
         message: 'Пользователь не найден'
       })
     }
-
+    // await User.updateOne({_id: user._id}, {$set: {lastSeen: Date.now()}})
     res.json(user)
 
   } catch (e) {

@@ -31,7 +31,7 @@ function Order() {
   const dispatch = useDispatch()
   const {service, loading, error, item} = useSelector(state => state.order, shallowEqual)
 
-  const date = new Date
+  const date = new Date()
   const getCreatedDate = (d) => {
     return `${d.getDate()}/${(d.getMonth() + 1) < 10 ? `0${d.getMonth() + 1}` : (d.getMonth() + 1)}/${d.getFullYear()}`
   }
@@ -90,7 +90,7 @@ function Order() {
           >
             {
               props => {
-                const {isValid, values, setFieldValue, errors, touched} = props
+                const {isValid, values, errors, touched} = props
                 return (
                   <Form>
 

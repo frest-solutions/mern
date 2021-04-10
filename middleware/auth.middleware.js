@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 const config = require('config')
-module.exports = (req, res, next) => {
+const User = require('../models/User')
+module.exports = async (req, res, next) => {
   if (req.method === 'OPTIONS') {
     return next()
   }
@@ -13,6 +14,8 @@ module.exports = (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, config.get('jwtSecret'))
+
+    await User.updateOne({_id: decoded.userId}, {$set: {lastSeen: Date.now()}})
 
     req.user = decoded
     next()

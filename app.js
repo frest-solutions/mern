@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.use(express.json({extended: true}))
 
 app.use('/api/auth', require('./routes/auth.routes'))
-app.use('/api/task', require('./routes/task.routes'))
+app.use('/api/task', require('./routes/task.routes')(io))
 app.use('/api/category', require('./routes/category.routes'))
 app.use('/api/chat', require('./routes/chat.routes')(io))
 app.use('/upload', express.static('upload'));

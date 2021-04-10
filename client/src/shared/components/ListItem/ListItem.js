@@ -7,6 +7,7 @@ import {useDispatch} from "react-redux"
 import profile from "../../../store/modules/profile"
 import editIcon from '../../assets/images/icons/edit.svg'
 import deleteIcon from '../../assets/images/icons/delete.svg'
+import {getCreatedTime} from "../../utils";
 
 
 const ListItem = ({config, item}) => {
@@ -23,7 +24,7 @@ const ListItem = ({config, item}) => {
         <Link className={'router-link'} to={config?.itemRoute ? config.itemRoute.replace(':id', item._id) : '#'}>
           <h3 className={'title'}>{item.title ? item.title : item.category?.subCategoryItemTitle}</h3>
 
-          {item.count || item.price &&
+          {(item.count || item.price) &&
           <p className={'text'}>{item.count ? item.count + ' специалистов' : item.price + ' смн'}</p>}
           {config?.profilePage &&
           <div className='listItem-controls'>
@@ -34,11 +35,13 @@ const ListItem = ({config, item}) => {
         </Link>
       </div>
     )
-  } else if (role === roles.SPECIALIST){
+  } else if (role === roles.SPECIALIST) {
     return (
       <div className={'ListItem'}>
         <Link className={'router-link'} to={config?.itemRoute ? config.itemRoute.replace(':id', item.id) : '#'}>
+          <p className={'text'}>Создан: {getCreatedTime(item.date)}</p>
           <h3 className={'title'}>{item.title ? item.title : item.category.subCategoryItemTitle}</h3>
+          <p className={'text'}>{item.description}</p>
           <p className={'text'}>{item.price + ' смн'}</p>
         </Link>
       </div>

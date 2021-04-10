@@ -1,7 +1,7 @@
 const {Schema, model, Types} = require('mongoose')
 
 const schema = new Schema({
-  date: {type: Date, default: Date.now},
+  date: {type: Date, default: Date.now()},
 
   title: {type: String, required: true},
   description: {type: String, required: true},

@@ -1,6 +1,5 @@
 import {useState, useCallback, useEffect} from "react";
 import profile from "../../store/modules/profile";
-import home from "../../store/modules/home";
 
 const storageName = 'userData'
 

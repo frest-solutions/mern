@@ -102,7 +102,6 @@ order.actions = {
         dispatch(order.actions.loading(true))
         const {item} = getState().order
         const task = {...item, ...value, photos: [...item.photos]}
-        debugger
         dispatch(order.actions.create(task))
         dispatch(order.actions.loading(false))
       } catch (e) {

@@ -69,6 +69,13 @@ export const chatsAPI = {
       headers: {Authorization: `Bearer ${JSON.parse(localStorage.getItem('userData'))?.token}`}
     })
       .catch(e => errorHandler(e))
+  },
+
+  setRead(msgs, id) {
+    return instance.post(`/api/chat/setRead/${id}`, {msgs, foo: 'bar'}, {
+      headers: {Authorization: `Bearer ${JSON.parse(localStorage.getItem('userData'))?.token}`}
+    })
+      .catch(e => errorHandler(e))
   }
 }
 
@@ -100,6 +107,13 @@ export const tasksAPI = {
 
   getTasks() {
     return instance.get('api/task',
+      {
+        headers: {Authorization: `Bearer ${JSON.parse(localStorage.getItem('userData'))?.token}`}
+      })
+      .catch(e => errorHandler(e))
+  },
+  getSpecTasks() {
+    return instance.get('api/task/spec',
       {
         headers: {Authorization: `Bearer ${JSON.parse(localStorage.getItem('userData'))?.token}`}
       })

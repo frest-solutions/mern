@@ -16,6 +16,14 @@
         margin-bottom: 9px;
       }
 
+      .text {
+        margin: 0;
+        &.green {
+          color: green;
+          font-weight: bold;
+        }
+      }
+
       .btn-regular {
         margin-top: 9px;
         font-size: 15px;
@@ -47,7 +55,6 @@
 
       .avatar {
         height: 100%;
-        width: 20%;
         max-width: 250px;
       }
 
@@ -56,6 +63,7 @@
         flex-direction: column;
         align-items: end;
         justify-content: right;
+
       }
 
       flex-wrap: wrap-reverse;

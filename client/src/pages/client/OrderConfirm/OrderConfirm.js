@@ -8,9 +8,8 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux'
 import * as Yup from 'yup'
 import order from '../../../store/modules/order'
 import Loading from '../../../shared/components/Loading'
-import MaskedInput from 'react-text-mask'
-import {AuthContext} from "../../../shared/contexts/AuthContext/AuthContext";
-import {useContext} from "react";
+// import MaskedInput from 'react-text-mask'
+import InputMask from "react-input-mask";
 
 const ValidateSchema = Yup.object().shape({
   address: Yup.string()
@@ -18,15 +17,12 @@ const ValidateSchema = Yup.object().shape({
     .required('Поле не может быть пустым'),
   phone: Yup.string()
     .test('len', 'Введите корректный номер телефона', (val) => {
-      const val_length_without_dashes = val?.replace(/ |_/g, '').length
+      const val_length_without_dashes = val?.replace(/[\s-+_]/g, "").length
       return val_length_without_dashes === 12
     })
     .required('Поле не может быть пустым')
 
 })
-const phoneNumberMask = [
-  '9', '9', '2', ' ', /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/
-]
 
 function OrderConfirm() {
 
@@ -92,7 +88,7 @@ function OrderConfirm() {
 
                 <div className='input-group'>
                   <Field name='phone'>{({field}) => (
-                    <MaskedInput
+                    <InputMask
                       {...field}
                       mask="+\9\92 99 999-99-99"
                       type="tel"

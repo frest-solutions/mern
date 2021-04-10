@@ -7,11 +7,17 @@ profile.types = {
   LOADING: 'profile/LOADING',
   SET_PROFILE: 'profile/SET_PROFILE',
   SET_TASKS: 'profile/SET_TASKS',
+  SET_TASK: 'profile/SET_TASK',
+  SET_SPEC_TASKS: 'profile/SET_SPEC_TASKS',
+  SET_SPEC_TASK: 'profile/SET_SPEC_TASK',
+  SET_PAID_UNTIL: 'profile/SET_PAID_UNTIL',
   ERROR: 'profile/ERROR'
 }
 
 const initialState = {
   tasks: [],
+  specTasks: [],
+  paidUntil: null,
   item: null,
   loading: false,
   error: null
@@ -29,9 +35,29 @@ profile.reducer = (state = initialState, action) => {
         ...state, item: action.payload, error: null
       }
 
+    case profile.types.SET_SPEC_TASKS:
+      return {
+        ...state, specTasks: action.payload, error: null
+      }
+
+    case profile.types.SET_SPEC_TASK:
+      return {
+        ...state, tasks: [...state.specTasks, action.payload], error: null
+      }
+
     case profile.types.SET_TASKS:
       return {
         ...state, tasks: action.payload, error: null
+      }
+
+    case profile.types.SET_TASK:
+      return {
+        ...state, tasks: [...state.tasks, action.payload], error: null
+      }
+
+    case profile.types.SET_PAID_UNTIL:
+      return {
+        ...state, paidUntil: action.payload, error: null
       }
 
     case profile.types.ERROR:
@@ -57,10 +83,35 @@ profile.actions = {
       payload: item
     }
   },
+
   setTasks(item) {
     return {
       type: profile.types.SET_TASKS,
       payload: item
+    }
+  },
+  setTask(item) {
+    return {
+      type: profile.types.SET_TASK,
+      payload: item
+    }
+  },
+  setSpecTasks(item) {
+    return {
+      type: profile.types.SET_SPEC_TASKS,
+      payload: item
+    }
+  },
+  setSpecTask(item) {
+    return {
+      type: profile.types.SET_SPEC_TASK,
+      payload: item
+    }
+  },
+  setPaidUntil(data) {
+    return {
+      type: profile.types.SET_PAID_UNTIL,
+      payload: data
     }
   },
   error(item) {
@@ -92,7 +143,24 @@ profile.actions = {
         if (response.statusText !== 'OK') {
           throw new Error(response.message || 'Что-то пошло не так')
         }
-        dispatch(profile.actions.setTasks(response.data))
+        // dispatch(profile.actions.setTasks(response.data))
+        dispatch(profile.actions.loading(false))
+      } catch (e) {
+        dispatch(profile.actions.error(e))
+      }
+    }
+  },
+
+  getSpecTasks() {
+    return async (dispatch) => {
+      try {
+        dispatch(profile.actions.loading(true))
+        const response = await tasksAPI.getSpecTasks()
+        // if (response.statusText !== 'OK') {
+        //   throw new Error(response.message || 'Что-то пошло не так')
+        // }
+
+        // dispatch(profile.actions.setSpecTasks(response.data))
         dispatch(profile.actions.loading(false))
       } catch (e) {
         dispatch(profile.actions.error(e))

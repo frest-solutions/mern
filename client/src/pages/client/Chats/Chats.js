@@ -1,5 +1,4 @@
 import List from '../../../shared/components/List'
-
 import BaseLayout from '../../../shared/layouts/client/BaseLayout'
 import './Chats.scss'
 import {routes} from '../../../shared/constants'
@@ -11,7 +10,7 @@ import Loading from "../../../shared/components/Loading";
 
 function Chats() {
   const dispatch = useDispatch()
-  const {users, loading, error} = useSelector(state => state.chats)
+  const {users, loading} = useSelector(state => state.chats)
   useEffect(() => {
     dispatch(chats.actions.getUsers())
   }, [dispatch])
@@ -28,11 +27,10 @@ function Chats() {
   if (loading) {
     return <Loading/>
   }
-
   return (
     <BaseLayout config={headerConfig} header={header}>
       <div className='Chats'>
-        {users && users.map(u => ({_id: u._id, title: u.name + ' ' + u.surname, text: u.role, imgUrl: u.imgUrl}))
+        {users && users.map(u => ({_id: u._id, title: u.name + ' ' + u.surname, text: u.role,...u}))
           .map(o => <List key={o._id} item={o} config={listConfig}/>)
         }
       </div>
